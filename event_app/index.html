@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>活动报名签到 Demo</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f5f7fa; color: #333; line-height: 1.6; padding: 20px; }
+  .container { max-width: 800px; margin: 0 auto; }
+  h1 { text-align: center; color: #1a73e8; margin-bottom: 8px; }
+  .subtitle { text-align: center; color: #666; margin-bottom: 24px; font-size: 14px; }
+  .card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 24px; margin-bottom: 20px; }
+  .card h2 { font-size: 18px; margin-bottom: 12px; color: #1a73e8; }
+  .card h3 { font-size: 15px; margin-bottom: 8px; color: #444; }
+  .event-list { list-style: none; }
+  .event-item { border: 1px solid #e0e0e0; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+  .event-item h3 { margin-bottom: 4px; }
+  .event-item .meta { font-size: 13px; color: #888; margin-bottom: 8px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+  .badge-green { background: #e6f4ea; color: #1e7e34; }
+  .badge-red { background: #fce8e6; color: #c5221f; }
+  .badge-blue { background: #e8f0fe; color: #1a73e8; }
+  .form-group { margin-bottom: 12px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #555; }
+  input[type="text"], input[type="email"] { width: 100%; padding: 10px 12px; border: 1px solid #dadce0; border-radius: 6px; font-size: 14px; }
+  input:focus { outline: none; border-color: #1a73e8; box-shadow: 0 0 0 2px rgba(26,115,232,0.15); }
+  .btn { display: inline-block; padding: 10px 20px; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+  .btn-primary { background: #1a73e8; color: #fff; }
+  .btn-primary:hover { background: #1557b0; }
+  .btn-success { background: #1e8e3e; color: #fff; }
+  .btn-success:hover { background: #166b2f; }
+  .btn-outline { background: transparent; color: #1a73e8; border: 1px solid #1a73e8; }
+  .btn-outline:hover { background: #e8f0fe; }
+  .msg { margin-top: 8px; padding: 8px 12px; border-radius: 6px; font-size: 13px; }
+  .msg-ok { background: #e6f4ea; color: #1e7e34; }
+  .msg-err { background: #fce8e6; color: #c5221f; }
+  .msg-info { background: #e8f0fe; color: #1a73e8; }
+  .steps { counter-reset: step; }
+  .step { margin-bottom: 16px; padding-left: 36px; position: relative; }
+  .step::before { counter-increment: step; content: counter(step); position: absolute; left: 0; top: 0; width: 26px; height: 26px; background: #1a73e8; color: #fff; border-radius: 50%; text-align: center; line-height: 26px; font-size: 13px; font-weight: 700; }
+  .step p { font-size: 14px; color: #555; }
+  code { background: #f1f3f4; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+  .footer { text-align: center; font-size: 12px; color: #999; margin-top: 32px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>📋 活动报名签到 Demo</h1>
+  <p class="subtitle">Event Registration &amp; Check-in — 纯前端交互示意</p>
+  <div class="card">
+    <h2>🎯 功能说明</h2>
+    <p style="font-size:14px;color:#555;margin-bottom:12px;">这是一个活动报名与签到系统的产品雏形。后端使用 Python 标准库实现，前端 HTML 页面展示交互流程。</p>
+    <div class="steps">
+      <div class="step"><p><strong>创建活动</strong> — 后端 <code>Event(id, title, capacity)</code> 创建活动，设定容量上限。</p></div>
+      <div class="step"><p><strong>用户报名</strong> — 通过 <code>event.register(email, name)</code> 报名，校验邮箱格式、去重、容量检查。</p></div>
+      <div class="step"><p><strong>现场签到</strong> — 通过 <code>event.check_in(email)</code> 签到，校验是否已报名、是否重复签到。</p></div>
+      <div class="step"><p><strong>数据持久化</strong> — <code>EventStore.save_to_file()</code> / <code>load_from_file()</code> 支持 JSON 文件读写。</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>📅 示例活动</h2>
+    <ul class="event-list">
+      <li class="event-item"><h3>Python 实战工作坊</h3><div class="meta"><span class="badge badge-blue">进行中</span><span>容量: 30 人</span><span>已报名: 18 人</span><span>已签到: 12 人</span></div></li>
+      <li class="event-item"><h3>AI 技术沙龙</h3><div class="meta"><span class="badge badge-green">开放报名</span><span>容量: 50 人</span><span>已报名: 35 人</span><span>已签到: 20 人</span></div></li>
+      <li class="event-item"><h3>开源贡献者 Meetup</h3><div class="meta"><span class="badge badge-red">已满员</span><span>容量: 20 人</span><span>已报名: 20 人</span><span>已签到: 15 人</span></div></li>
+    </ul>
+  </div>
+  <div class="card">
+    <h2>✏️ 模拟操作</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+      <div><h3>📝 报名</h3><div class="form-group"><label for="demo-name">姓名</label><input type="text" id="demo-name" placeholder="张三" value="张三"></div><div class="form-group"><label for="demo-email">邮箱</label><input type="email" id="demo-email" placeholder="zhang@example.com" value="zhang@example.com"></div><button class="btn btn-primary" onclick="showMsg('register-msg', 'OK: 张三 报名成功！', 'ok')">报名</button><div id="register-msg" class="msg msg-ok">OK: 张三 报名成功！</div></div>
+      <div><h3>✅ 签到</h3><div class="form-group"><label for="demo-checkin-email">报名邮箱</label><input type="email" id="demo-checkin-email" placeholder="zhang@example.com" value="zhang@example.com"></div><div style="margin-top:30px;"><button class="btn btn-success" onclick="showMsg('checkin-msg', 'OK: 张三 签到成功！', 'ok')">签到</button></div><div id="checkin-msg" class="msg msg-ok">OK: 张三 签到成功！</div></div>
+    </div>
+  </div>
+  <div class="card"><h2>🚀 运行方式</h2><div style="background:#f1f3f4;border-radius:6px;padding:12px;font-size:13px;font-family:monospace;"><p># 运行 demo 并执行单元测试</p><p>python app.py</p><p style="margin-top:8px;"># 或单独运行测试</p><p>python test_app.py</p></div></div>
+  <div class="footer"><p>Event App Demo · Python Standard Library · 产品雏形</p></div>
+</div>
+<script>
+function showMsg(id, text, type) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.textContent = text;
+  el.className = 'msg';
+  if (type === 'ok') el.classList.add('msg-ok');
+  else if (type === 'err') el.classList.add('msg-err');
+  else el.classList.add('msg-info');
+}
+</script>
+</body>
+</html>
